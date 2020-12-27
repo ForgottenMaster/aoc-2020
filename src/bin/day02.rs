@@ -1,10 +1,7 @@
 use {
     aoc::{
-        io::file::get_file_contents, 
-        password::{
-            password::Password,
-            policy::Scheme
-        }
+        io::file::get_file_contents,
+        password::{password::Password, policy::Scheme},
     },
     std::io::Result,
 };
@@ -23,8 +20,14 @@ fn main() -> Result<()> {
             .filter(|password| password.is_valid(Scheme::OccurrenceCount))
             .count()
     );
-    
-    println!("Part 2 = {}", passwords.iter().filter(|password| password.is_valid(Scheme::PositionCheck)).count());
+
+    println!(
+        "Part 2 = {}",
+        passwords
+            .iter()
+            .filter(|password| password.is_valid(Scheme::PositionCheck))
+            .count()
+    );
 
     Ok(())
 }

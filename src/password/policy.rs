@@ -12,7 +12,7 @@ pub struct Policy {
 
 pub enum Scheme {
     OccurrenceCount,
-    PositionCheck
+    PositionCheck,
 }
 
 impl Policy {
@@ -21,10 +21,16 @@ impl Policy {
             Scheme::OccurrenceCount => {
                 let count = password.chars().filter(|c| c == &self._char).count() as u8;
                 count >= self._min_repetitions && count <= self._max_repetitions
-            },
+            }
             Scheme::PositionCheck => {
-                let c1 = password.chars().nth(self._min_repetitions as usize - 1).unwrap();
-                let c2 = password.chars().nth(self._max_repetitions as usize - 1).unwrap();
+                let c1 = password
+                    .chars()
+                    .nth(self._min_repetitions as usize - 1)
+                    .unwrap();
+                let c2 = password
+                    .chars()
+                    .nth(self._max_repetitions as usize - 1)
+                    .unwrap();
                 (c1 == self._char && c2 != self._char) || (c1 != self._char && c2 == self._char)
             }
         }
