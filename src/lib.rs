@@ -1,6 +1,7 @@
 pub mod combinators;
 pub mod io;
 pub mod password;
+pub mod toboggan;
 
 #[macro_export]
 macro_rules! cartesian {
