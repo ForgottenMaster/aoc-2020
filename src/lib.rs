@@ -1,3 +1,4 @@
+pub mod airplane;
 pub mod combinators;
 pub mod io;
 pub mod passport;
