@@ -7,7 +7,7 @@ use {
 };
 
 fn main() -> Result<()> {
-    let map = get_file_contents("data/day03/input.txt")?.parse::<Map>()?;
+    let map = get_file_contents("data/day03.txt")?.parse::<Map>()?;
 
     println!(
         "Part 1 = {}",

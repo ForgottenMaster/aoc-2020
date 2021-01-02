@@ -4,7 +4,7 @@ use {
 };
 
 fn get_passport_validations() -> Result<Box<[PassportValidation]>> {
-    let input = get_file_contents("data/day04/input.txt")?;
+    let input = get_file_contents("data/day04.txt")?;
     let mut current_passport_validation = PassportValidation::default();
     let mut passport_validations = Vec::new();
     for line in input.trim().lines() {

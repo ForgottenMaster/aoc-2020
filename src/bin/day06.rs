@@ -10,7 +10,7 @@ use {
 };
 
 fn main() -> Result<()> {
-    let input = get_file_contents("data/day06/input.txt")?;
+    let input = get_file_contents("data/day06.txt")?;
     let iter = input.lines().chunks(|line: &&str| !line.trim().is_empty());
 
     // For part 1:

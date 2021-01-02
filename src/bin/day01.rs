@@ -16,7 +16,7 @@ where
 }
 
 fn main() -> Result<()> {
-    let numbers = get_file_contents("data/day01/input.txt")?
+    let numbers = get_file_contents("data/day01.txt")?
         .trim()
         .lines()
         .map(|line| line.parse::<u64>().unwrap())

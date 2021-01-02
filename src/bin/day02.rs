@@ -7,7 +7,7 @@ use {
 };
 
 fn main() -> Result<()> {
-    let passwords = get_file_contents("data/day02/input.txt")?
+    let passwords = get_file_contents("data/day02.txt")?
         .trim()
         .lines()
         .map(|line| line.parse().unwrap())

@@ -5,7 +5,7 @@ use {
 
 fn get_seats() -> Result<Box<[Seating]>> {
     let mut seats = Vec::new();
-    for line in get_file_contents("data/day05/input.txt")?.trim().lines() {
+    for line in get_file_contents("data/day05.txt")?.trim().lines() {
         seats.push(line.parse()?);
     }
     Ok(seats.into_boxed_slice())
