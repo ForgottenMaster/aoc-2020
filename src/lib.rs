@@ -1,5 +1,6 @@
 pub mod combinators;
 pub mod io;
+pub mod passport;
 pub mod password;
 pub mod toboggan;
 
