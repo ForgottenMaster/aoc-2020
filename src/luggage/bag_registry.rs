@@ -1,6 +1,10 @@
 use {
     crate::luggage::bag::Bag,
-    std::{collections::HashMap, convert::TryFrom, io::{Error, ErrorKind}},
+    std::{
+        collections::HashMap,
+        convert::TryFrom,
+        io::{Error, ErrorKind},
+    },
 };
 
 #[derive(Debug)]
@@ -12,13 +16,14 @@ impl<'a> BagRegistry<'a> {
     pub fn len(&self) -> usize {
         self.mapping.len()
     }
-    
+
     pub fn find_containers(&'a self, needle: &'a str) -> impl Iterator<Item = &'a str> {
-        self.mapping.keys().filter(move |key| {
-            self.bag_contains(*key, needle)
-        }).map(|key| *key)
+        self.mapping
+            .keys()
+            .filter(move |key| self.bag_contains(*key, needle))
+            .map(|key| *key)
     }
-    
+
     fn bag_contains(&self, name: &'a str, needle: &'a str) -> bool {
         for (_, contains) in self.mapping[name].contents() {
             if (*contains == needle) || self.bag_contains(*contains, needle) {
@@ -27,7 +32,7 @@ impl<'a> BagRegistry<'a> {
         }
         false
     }
-    
+
     pub fn count_nested(&self, outermost_name: &str) -> u32 {
         let contents = self.mapping[outermost_name].contents();
         if contents.len() == 0 {
@@ -56,15 +61,21 @@ impl<'a> TryFrom<&'a str> for BagRegistry<'a> {
                 (result.name(), result)
             })
             .collect::<HashMap<&'a str, Bag<'a>>>();
-        
+
         for (_, bag) in &mapping {
             for (_, contains) in bag.contents() {
                 if !mapping.contains_key(contains) {
-                    return Err(Error::new(ErrorKind::InvalidData, format!("Incomplete bag registry data, missing contents of bag: {}", contains)));
+                    return Err(Error::new(
+                        ErrorKind::InvalidData,
+                        format!(
+                            "Incomplete bag registry data, missing contents of bag: {}",
+                            contains
+                        ),
+                    ));
                 }
             }
         }
-        
+
         Ok(Self { mapping })
     }
 }
@@ -80,28 +91,33 @@ mod tests {
         let registry = registry.unwrap();
         assert_eq!(registry.len(), 0);
     }
-    
+
     #[test]
     fn test_incomplete_bag_registry() {
-        let registry = BagRegistry::try_from("light red bags contain 1 bright white bag, 2 muted yellow bags.");
+        let registry = BagRegistry::try_from(
+            "light red bags contain 1 bright white bag, 2 muted yellow bags.",
+        );
         assert!(registry.is_err());
-        assert_eq!(format!("{}", registry.unwrap_err()), "Incomplete bag registry data, missing contents of bag: bright white");
+        assert_eq!(
+            format!("{}", registry.unwrap_err()),
+            "Incomplete bag registry data, missing contents of bag: bright white"
+        );
     }
-    
+
     #[test]
     fn test_complete_single_bag() {
         let registry = BagRegistry::try_from("faded blue bags contain no other bags.");
         assert!(registry.is_ok());
         assert_eq!(registry.unwrap().len(), 1);
     }
-    
+
     #[test]
     fn test_complete_three_bags() {
         let registry = BagRegistry::try_from("vibrant plum bags contain 5 faded blue bags, 6 dotted black bags.\nfaded blue bags contain no other bags.\ndotted black bags contain no other bags.");
         assert!(registry.is_ok());
         assert_eq!(registry.unwrap().len(), 3);
     }
-    
+
     #[test]
     fn test_find_shiny_gold_bag() {
         use std::collections::HashSet;
@@ -109,7 +125,9 @@ mod tests {
         assert!(registry.is_ok());
         let registry = registry.unwrap();
         assert_eq!(registry.len(), 9);
-        let results = registry.find_containers("shiny gold").collect::<HashSet<_>>();
+        let results = registry
+            .find_containers("shiny gold")
+            .collect::<HashSet<_>>();
         let expected = {
             let mut expected = HashSet::with_capacity(4);
             expected.insert("bright white");
