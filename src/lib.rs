@@ -2,6 +2,7 @@ pub mod airplane;
 pub mod combinators;
 pub mod io;
 pub mod iter;
+pub mod luggage;
 pub mod passport;
 pub mod password;
 pub mod toboggan;
