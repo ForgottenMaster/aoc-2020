@@ -1,5 +1,6 @@
 pub mod airplane;
 pub mod combinators;
+pub mod game_console;
 pub mod io;
 pub mod iter;
 pub mod luggage;
