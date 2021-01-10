@@ -7,6 +7,7 @@ pub mod luggage;
 pub mod passport;
 pub mod password;
 pub mod toboggan;
+pub mod xmas;
 
 #[macro_export]
 macro_rules! cartesian {
